@@ -49,13 +49,17 @@ SPECIAL_OFFERS = [
 
 
 def parse_skus(skus: str) -> list[SKU]:
-    """Takes a comma seperated str representing the basket and returns a list of SKUs
+    """Takes a unicode str representing the basket and returns a list of SKUs
+
+    Examples:
+        >>> parse_skus("AAAA")
+        ... [A, A, A, A]
 
     Raises:
         IllegalItem if item is not known to the shop
     """
     sku_objects = []
-    for sku_str in skus.split(", "):
+    for sku_str in skus:
         if sku_str not in SKU_STR_TO_ITEMS:
             raise IllegalItem
         sku_objects.append(SKU_STR_TO_ITEMS[sku_str])
