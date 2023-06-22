@@ -38,8 +38,8 @@ SPECIAL_OFFERS = [
     ),
     SpecialOffer(
         name="2B for 45",
-        applicable_sku=A,
-        should_apply_offer=lambda skus: skus.count(A) == 3,
+        applicable_sku=B,
+        should_apply_offer=lambda skus: skus.count(B) == 2,
         apply_offer=lambda skus: 1
     )
 ]
@@ -59,10 +59,6 @@ def parse_skus(skus: str) -> list[SKU]:
     return sku_objects
 
 
-def special_offer_applicable():
-    pass
-
-
 # noinspection PyUnusedLocal
 # skus = unicode string
 def checkout(skus: str) -> int:
@@ -72,6 +68,8 @@ def checkout(skus: str) -> int:
         return -1
 
     total_checkout_value = 0
+
+    should_apply_offers = [offer.should_apply_offer(basket_items) for offer in SPECIAL_OFFERS]
 
     for item in basket_items:
         total_checkout_value += item.price

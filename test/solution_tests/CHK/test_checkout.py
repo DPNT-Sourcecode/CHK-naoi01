@@ -23,3 +23,9 @@ class TestSum():
 
     def test_item_b_special_offer(self):
         assert checkout("B, B") == 45
+
+    def test_item_a_special_offer_multiple_times(self):
+        assert checkout("A, A, A, A, A, A") == 260
+
+    def test_item_a_special_offer_short_of_twice(self):
+        assert checkout("A, A, A, A") == 180
