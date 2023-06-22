@@ -1,4 +1,4 @@
-from typing import NamedTuple
+from typing import NamedTuple, Callable
 
 
 class IllegalItem(Exception):
@@ -10,12 +10,26 @@ class BasketItem(NamedTuple):
     price: int
 
 
+class SpecialOffer(NamedTuple):
+    name: str
+    applicable_sku: str
+    apply_offer: Callable
+
+
 SKU_TO_ITEMS = {
     "A": BasketItem("A", 50),
     "B": BasketItem("B", 30),
     "C": BasketItem("C", 20),
     "D": BasketItem("D", 15),
 }
+
+SPECIAL_OFFERS = [
+    SpecialOffer(
+        name="3A for 130",
+        applicable_sku="A",
+        apply_offer=lambda skus: skus.count
+    )
+]
 
 
 def parse_skus(skus: str) -> list[BasketItem]:
@@ -35,6 +49,7 @@ def parse_skus(skus: str) -> list[BasketItem]:
 def special_offer_applicable():
     pass
 
+
 # noinspection PyUnusedLocal
 # skus = unicode string
 def checkout(skus: str) -> int:
@@ -49,8 +64,3 @@ def checkout(skus: str) -> int:
         total_checkout_value += item.price
 
     return total_checkout_value
-
-
-
-
-

@@ -23,7 +23,3 @@ class TestSum():
 
     def test_item_b_special_offer(self):
         assert checkout("B, B") == 45
-
-
-
-
