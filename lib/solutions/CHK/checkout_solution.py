@@ -62,6 +62,12 @@ def parse_skus(skus: str) -> list[SKU]:
     return sku_objects
 
 
+def remove_skus_in_offer_from_remaining_basket(offer: SpecialOffer, current_basket: list[SKU]) -> list[SKU]:
+    remove_skus = offer.skus_to_remove
+    for item in remove_skus:
+        basket_items.fin
+
+
 # noinspection PyUnusedLocal
 # skus = unicode string
 def checkout(skus: str) -> int:
@@ -75,14 +81,15 @@ def checkout(skus: str) -> int:
     # First apply offers (first assume offer applies once?)
     for offer in SPECIAL_OFFERS:
         if offer.should_apply:
-            basket_items = offer.skus_to_remove
             total_checkout_value += offer.reduced_price
+            basket_items = remove_skus_in_offer_from_remaining_basket(offer, basket_items)
 
     # Go through remaining items after offers have been applied
     for item in basket_items:
         total_checkout_value += item.price
 
     return total_checkout_value
+
 
 
 
