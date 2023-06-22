@@ -75,6 +75,14 @@ def remove_skus_in_offer_from_remaining_basket(offer: SpecialOffer, current_bask
     return current_basket
 
 
+def basket_contains_applicable_offers(current_basket: list[SKU]) -> bool:
+    for offer in SPECIAL_OFFERS:
+        if offer.should_apply(current_basket):
+            return True
+
+    return False
+
+
 # skus = unicode string
 def checkout(skus: str) -> int:
     try:
@@ -84,11 +92,12 @@ def checkout(skus: str) -> int:
 
     total_checkout_value = 0
 
-    # First apply offers (first assume offer applies once?)
-    for offer in SPECIAL_OFFERS:
-        if offer.should_apply(basket_items):
-            total_checkout_value += offer.reduced_price
-            basket_items = remove_skus_in_offer_from_remaining_basket(offer, basket_items)
+    # First apply offers (which could be applicable multiple times)
+    while basket_contains_applicable_offers(basket_items):
+        for offer in SPECIAL_OFFERS:
+            if offer.should_apply(basket_items):
+                total_checkout_value += offer.reduced_price
+                basket_items = remove_skus_in_offer_from_remaining_basket(offer, basket_items)
 
     # Go through remaining items after offers have been applied
     for item in basket_items:
