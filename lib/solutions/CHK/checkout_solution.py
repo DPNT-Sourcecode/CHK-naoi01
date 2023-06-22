@@ -1,7 +1,9 @@
 from typing import NamedTuple
 
+
 class IllegalItem(Exception):
     pass
+
 
 class BasketItem(NamedTuple):
     name: str
@@ -17,10 +19,17 @@ SKU_TO_ITEMS = {
 
 
 def parse_skus(skus: str) -> list[BasketItem]:
-    for sku in skus.split(","):
-        if sku not in SKU_TO_ITEMS:
+    """Takes a comma seperated str representing the basket and returns a list of BasketItems
+
+    Raises:
+        IllegalItem if item is not known to the shop
+    """
+    sku_objects = []
+    for sku_str in skus.split(","):
+        if sku_str not in SKU_TO_ITEMS:
             raise IllegalItem
-        
+        sku_objects.append(SKU_TO_ITEMS[sku_str])
+    return sku_objects
 
 
 # noinspection PyUnusedLocal
@@ -30,6 +39,9 @@ def checkout(skus: str) -> int:
         basket_items = parse_skus(skus)
     except IllegalItem:
         return -1
+
+    return 0
+
 
 
 

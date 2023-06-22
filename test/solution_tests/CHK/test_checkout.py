@@ -1,11 +1,13 @@
-from solutions.SUM import sum_solution
 from solutions.CHK import checkout
 
 
 class TestSum():
 
+    def test_illegal_item(self):
+        assert checkout("Z") == -1
+
     def test_item_a(self):
-        assert checkout()
-        assert sum_solution.compute(1, 2) == 3
+        assert checkout("A") == 50
+
 
 
