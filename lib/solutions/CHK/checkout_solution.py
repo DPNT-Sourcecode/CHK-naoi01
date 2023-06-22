@@ -65,22 +65,27 @@ def parse_skus(skus: str) -> list[SKU]:
 def remove_skus_in_offer_from_remaining_basket(offer: SpecialOffer, current_basket: list[SKU]) -> list[SKU]:
     remove_skus = offer.skus_to_remove
     for item in remove_skus:
-        basket_items.fin
+        # value error shouldn't be raised as we have already checked offer applies
+        index_of_item = current_basket.index(item)
+        current_basket.pop(index_of_item)
+    return current_basket
 
 
 # noinspection PyUnusedLocal
 # skus = unicode string
 def checkout(skus: str) -> int:
+    print(skus)
     try:
         basket_items = parse_skus(skus)
     except IllegalItem:
+        print("BAD FORMAT ###############")
         return -1
 
     total_checkout_value = 0
 
     # First apply offers (first assume offer applies once?)
     for offer in SPECIAL_OFFERS:
-        if offer.should_apply:
+        if offer.should_apply(basket_items):
             total_checkout_value += offer.reduced_price
             basket_items = remove_skus_in_offer_from_remaining_basket(offer, basket_items)
 
@@ -89,6 +94,7 @@ def checkout(skus: str) -> int:
         total_checkout_value += item.price
 
     return total_checkout_value
+
 
 
 
