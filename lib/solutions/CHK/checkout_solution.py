@@ -82,11 +82,7 @@ def checkout(skus: str) -> int:
 
     # First apply offers (first assume offer applies once?)
     for offer in SPECIAL_OFFERS:
-        print("###############", offer.name, "...checking")
-        print(basket_items.count(A))
-        print(basket_items.count(B))
         if offer.should_apply(basket_items):
-            print("###############", offer.name, "...applying")
             total_checkout_value += offer.reduced_price
             basket_items = remove_skus_in_offer_from_remaining_basket(offer, basket_items)
 

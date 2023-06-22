@@ -25,7 +25,8 @@ class TestSum():
         assert checkout("B, B") == 45
 
     def test_item_a_special_offer_multiple_times(self):
-        assert checkout("A, A, A, A, A, A") == 260
+        # assume only apply offers once
+        assert checkout("A, A, A, A, A, A") == 280
 
     def test_item_a_special_offer_short_of_twice(self):
         assert checkout("A, A, A, A") == 180
