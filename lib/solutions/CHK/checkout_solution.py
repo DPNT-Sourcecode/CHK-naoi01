@@ -59,7 +59,7 @@ def parse_skus(skus: str) -> list[SKU]:
         IllegalItem if item is not known to the shop
     """
     sku_objects = []
-    for sku_str in skus:
+    for sku_str in list(skus):
         if sku_str not in SKU_STR_TO_ITEMS:
             raise IllegalItem
         sku_objects.append(SKU_STR_TO_ITEMS[sku_str])
@@ -95,9 +95,3 @@ def checkout(skus: str) -> int:
         total_checkout_value += item.price
 
     return total_checkout_value
-
-
-
-
-
-
