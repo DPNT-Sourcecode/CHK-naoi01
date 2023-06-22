@@ -5,35 +5,48 @@ class IllegalItem(Exception):
     pass
 
 
-class BasketItem(NamedTuple):
+class SKU(NamedTuple):
     name: str
     price: int
 
 
 class SpecialOffer(NamedTuple):
     name: str
-    applicable_sku: str
+    applicable_sku: SKU
+    should_apply_offer: Callable
     apply_offer: Callable
 
 
+A = SKU("A", 50)
+B = SKU("B", 30)
+C = SKU("C", 20)
+D = SKU("D", 15)
+
 SKU_TO_ITEMS = {
-    "A": BasketItem("A", 50),
-    "B": BasketItem("B", 30),
-    "C": BasketItem("C", 20),
-    "D": BasketItem("D", 15),
+    "A": A,
+    "B": B,
+    "C": C,
+    "D": D,
 }
 
 SPECIAL_OFFERS = [
     SpecialOffer(
         name="3A for 130",
-        applicable_sku="A",
-        apply_offer=lambda skus: skus.count
+        applicable_sku=A,
+        should_apply_offer=lambda skus: skus.count(A) == 3,
+        apply_offer=lambda skus: 1
+    ),
+    SpecialOffer(
+        name="2B for 45",
+        applicable_sku=A,
+        should_apply_offer=lambda skus: skus.count(A) == 3,
+        apply_offer=lambda skus: 1
     )
 ]
 
 
-def parse_skus(skus: str) -> list[BasketItem]:
-    """Takes a comma seperated str representing the basket and returns a list of BasketItems
+def parse_skus(skus: str) -> list[SKU]:
+    """Takes a comma seperated str representing the basket and returns a list of SKUs
 
     Raises:
         IllegalItem if item is not known to the shop
@@ -64,3 +77,4 @@ def checkout(skus: str) -> int:
         total_checkout_value += item.price
 
     return total_checkout_value
+
