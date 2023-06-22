@@ -32,6 +32,9 @@ def parse_skus(skus: str) -> list[BasketItem]:
     return sku_objects
 
 
+def special_offer_applicable():
+    pass
+
 # noinspection PyUnusedLocal
 # skus = unicode string
 def checkout(skus: str) -> int:
@@ -40,7 +43,13 @@ def checkout(skus: str) -> int:
     except IllegalItem:
         return -1
 
-    return 0
+    total_checkout_value = 0
+
+    for item in basket_items:
+        total_checkout_value += item.price
+
+    return total_checkout_value
+
 
 
 
