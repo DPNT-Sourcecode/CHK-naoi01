@@ -14,7 +14,9 @@ class SpecialOffer(NamedTuple):
     name: str
     applicable_sku: SKU
     should_apply_offer: Callable
-    apply_offer: Callable
+    skus_to_remove: list[SKU]
+    remaining_skus: Callable
+    reduced_price: int
 
 
 A = SKU("A", 50)
@@ -34,13 +36,15 @@ SPECIAL_OFFERS = [
         name="3A for 130",
         applicable_sku=A,
         should_apply_offer=lambda skus: skus.count(A) == 3,
-        apply_offer=lambda skus: 1
+        skus_to_remove=[A, A, A],
+        reduced_price=130,
     ),
     SpecialOffer(
         name="2B for 45",
         applicable_sku=B,
         should_apply_offer=lambda skus: skus.count(B) == 2,
-        apply_offer=lambda skus: 1
+        skus_to_remove=[B, B],
+        reduced_price=45,
     )
 ]
 
@@ -70,9 +74,14 @@ def checkout(skus: str) -> int:
     total_checkout_value = 0
 
     should_apply_offers = [offer.should_apply_offer(basket_items) for offer in SPECIAL_OFFERS]
+    for offer in SPECIAL_OFFERS:
+        if offer.should_apply_offer:
+            basket_items = offer.skus_to_remove
+            total_checkout_value += offer.reduced_price
 
     for item in basket_items:
         total_checkout_value += item.price
 
     return total_checkout_value
+
 
