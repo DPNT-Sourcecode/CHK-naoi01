@@ -28,7 +28,7 @@ G = SKU("G", 20)
 H = SKU("H", 10)
 I = SKU("I", 35)
 J = SKU("J", 60)
-K = SKU("K", 80)
+K = SKU("K", 70)
 L = SKU("L", 90)
 M = SKU("M", 15)
 N = SKU("N", 40)
@@ -36,14 +36,14 @@ O = SKU("O", 10)
 P = SKU("P", 50)
 Q = SKU("Q", 30)
 R = SKU("R", 50)
-S = SKU("S", 30)
+S = SKU("S", 20)
 T = SKU("T", 20)
 U = SKU("U", 40)
 V = SKU("V", 50)
 W = SKU("W", 20)
-X = SKU("X", 90)
-Y = SKU("Y", 10)
-Z = SKU("Z", 50)
+X = SKU("X", 17)
+Y = SKU("Y", 20)
+Z = SKU("Z", 21)
 
 SKU_STR_TO_ITEMS = {
     "A": A,
@@ -75,7 +75,6 @@ SKU_STR_TO_ITEMS = {
 }
 
 SPECIAL_OFFERS = [
-    # This is better than "3A for 130" so apply this first
     SpecialOffer(
         name="5A for 200",
         should_apply=lambda skus: skus.count(A) >= 5,
@@ -126,11 +125,11 @@ SPECIAL_OFFERS = [
         discount=5,
     ),
     SpecialOffer(
-        name="2K for 150",
+        name="2K for 120",
         should_apply=lambda skus: skus.count(K) >= 2,
         skus_to_remove=[K] * 2,
-        reduced_price=150,
-        discount=10,
+        reduced_price=120,
+        discount=40,
     ),
     SpecialOffer(
         name="3N get one M free",
@@ -245,6 +244,7 @@ def checkout(skus: str) -> int:
     for item in basket_items:
         total_checkout_value += item.price
     return total_checkout_value
+
 
 
 
