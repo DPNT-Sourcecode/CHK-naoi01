@@ -70,6 +70,8 @@ class TestSum():
 
     @parameterized.expand([
         ("SSS", 45),
+        ("ZZZSSSTTT", 45) * 3,
     ])
     def tes_group_discount(self, skus, expected_price):
         assert checkout(skus) == expected_price
+
