@@ -1,3 +1,4 @@
+from parameterized import parameterized
 from solutions.CHK import checkout
 
 class TestSum():
@@ -66,5 +67,12 @@ class TestSum():
 
     def test_hanging_on_deploy(self):
         assert checkout("VVV") == 130
+
+    @parameterized.expand([
+        ("SSS", 45),
+    ])
+    def tes_group_discount(self, skus, expected_price):
+        assert checkout(skus) == expected_price
+
 
 
