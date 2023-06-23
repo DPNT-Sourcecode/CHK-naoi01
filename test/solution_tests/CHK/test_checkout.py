@@ -42,20 +42,13 @@ class TestSum():
     def test_item_e_special_offer_with_B(self):
         assert checkout("EEB") == 80
 
-    def test_item_e_special_offer_with_B_twice(self):
+    def test_e_special_offer_twice_prefers_to_use_b_special_offer_first(self):
         # 2E = 80
         assert checkout("EEBEEB") == 160
 
-    def test_when_both_B_and_E_special_offers_apply_favour_customer(self):
+    def test_b_special_offer_twice_preders_to_use_b_special_offer_over_e(self):
         # 2B = 45
         # 4E = 240
-        assert checkout("EEEEBB") == 285
+        assert checkout("BEBEEE") == 160
 
-
-"""
-Some requests have failed (5/40). Here are some of them:
- - {"method":"checkout","params":["AAAAAAAAAA"],"id":"CHK_R2_022"}, expected: 400, got: 430
- - {"method":"checkout","params":["EEEEBB"],"id":"CHK_R2_026"}, expected: 160, got: 205
- - {"method":"checkout","params":["BEBEEE"],"id":"CHK_R2_027"}, expected: 160, got: 205
-"""
 
