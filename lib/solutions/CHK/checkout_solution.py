@@ -22,13 +22,14 @@ A = SKU("A", 50)
 B = SKU("B", 30)
 C = SKU("C", 20)
 D = SKU("D", 15)
-E = SKU("E", 15)
+E = SKU("E", 40)
 
 SKU_STR_TO_ITEMS = {
     "A": A,
     "B": B,
     "C": C,
     "D": D,
+    "E": E,
 }
 
 SPECIAL_OFFERS = [
@@ -57,9 +58,9 @@ SPECIAL_OFFERS = [
     SpecialOffer(
         name="2E get one B free",
         applicable_sku=E,
-        should_apply=lambda skus: skus.count(E) >= 2,
-        skus_to_remove=[E, E],
-        reduced_price=45,  # todo
+        should_apply=lambda skus: skus.count(E) >= 2 and skus.count(B) >= 1,
+        skus_to_remove=[E, E, B],
+        reduced_price=80,
     )
 ]
 
@@ -120,4 +121,5 @@ def checkout(skus: str) -> int:
         total_checkout_value += item.price
 
     return total_checkout_value
+
 
