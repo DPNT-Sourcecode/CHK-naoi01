@@ -118,25 +118,77 @@ SPECIAL_OFFERS = [
         discount=10,
     ),
     SpecialOffer(
-        name="5H for 45, 10H for 80", ),
+        name="10H for 80",
+        applicable_sku=H,
+        should_apply=False,
+        skus_to_remove=[H * 10],
+        reduced_price=0,
+        discount=-1,
+    ),
     SpecialOffer(
-        name="2K for 150", ),
+        name="5H for 45",
+        applicable_sku=H,
+        should_apply=False,
+        skus_to_remove=[],
+        reduced_price=0,
+        discount=-1,
+    ),
     SpecialOffer(
-        name="3N get one M free", ),
+        name="2K for 150",
+        applicable_sku=A,
+        should_apply=False,
+        skus_to_remove=[],
+        reduced_price=0,
+        discount=-1,
+    ),
     SpecialOffer(
-        name="5P for 200", ),
+        name="3N get one M free",
+        applicable_sku=A,
+        should_apply=False,
+        skus_to_remove=[],
+        reduced_price=0,
+        discount=-1,
+    ),
     SpecialOffer(
-        name="3Q for 80", ),
+        name="5P for 200",
+        applicable_sku=A,
+        should_apply=False,
+        skus_to_remove=[],
+        reduced_price=0,
+        discount=-1,
+    ),
     SpecialOffer(
-        name="3R get one Q free", ),
+        name="3Q for 80",
+        applicable_sku=A,
+        should_apply=False,
+        skus_to_remove=[],
+        reduced_price=0,
+        discount=-1,
+    ),
     SpecialOffer(
-        name="3U get one U free", ),
+        name="3R get one Q free",
+        applicable_sku=A,
+        should_apply=False,
+        skus_to_remove=[],
+        reduced_price=0,
+        discount=-1,
+    ),
     SpecialOffer(
-        name="2V for 90, 3V for 130", ),
+        name="3U get one U free",
+        applicable_sku=A,
+        should_apply=False,
+        skus_to_remove=[],
+        reduced_price=0,
+        discount=-1,
+    ),
     SpecialOffer(
-        name=""",),"""
-    )
-
+        name="2V for 90, 3V for 130",
+        applicable_sku=A,
+        should_apply=False,
+        skus_to_remove=[],
+        reduced_price=0,
+        discount=-1,
+    ),
 ]
 
 
@@ -203,4 +255,5 @@ def checkout(skus: str) -> int:
         total_checkout_value += item.price
 
     return total_checkout_value
+
 
