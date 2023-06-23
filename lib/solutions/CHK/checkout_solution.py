@@ -78,7 +78,7 @@ GROUP_DISCOUNT_ITEMS = (S, T, X, Y, Z)
 
 
 def should_apply_group_discount(skus: list[SKU]) -> bool:
-    return any(skus.count(item) >= 3 for item in GROUP_DISCOUNT_ITEMS)
+    return sum(skus.count(item) for item in GROUP_DISCOUNT_ITEMS) >= 3
 
 
 def get_group_discount(skus: list[SKU]) -> int:
@@ -87,7 +87,7 @@ def get_group_discount(skus: list[SKU]) -> int:
 
 
 def get_group_discount_items(skus: list[SKU]) -> list[SKU]:
-    group_discount_items_in_skus = [item for item in GROUP_DISCOUNT_ITEMS if skus.count(item) >= 3]
+    group_discount_items_in_skus = [item for item in skus if item in GROUP_DISCOUNT_ITEMS]
     highest_discount_items = sorted(group_discount_items_in_skus, key=lambda item: item.price, reverse=True)[:3]
     return highest_discount_items
 
@@ -244,6 +244,8 @@ def remove_skus_in_offer_from_remaining_basket(offer: SpecialOffer, current_bask
     else:
         remove_skus = offer.skus_to_remove(current_basket)
 
+    print("removing ", remove_skus)
+
     for item in remove_skus:
         # value error shouldn't be raised as we have already checked offer applies
         index_of_item = current_basket.index(item)
@@ -300,6 +302,7 @@ def checkout(skus: str) -> int:
     for item in basket_items:
         total_checkout_value += item.price
     return total_checkout_value
+
 
 
 
