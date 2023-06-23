@@ -180,6 +180,25 @@ SPECIAL_OFFERS = [
         reduced_price=130,
         discount=20,
     ),
+
+    # Group discounts
+    # +------+-------+---------------------------------+
+    # | Item | Price | Special offers                  |
+    # +------+-------+---------------------------------+
+    # | S    | 20    | buy any 3 of (S,T,X,Y,Z) for 45 |
+    # | T    | 20    | buy any 3 of (S,T,X,Y,Z) for 45 |
+    # | X    | 17    | buy any 3 of (S,T,X,Y,Z) for 45 |
+    # | Y    | 20    | buy any 3 of (S,T,X,Y,Z) for 45 |
+    # | Z    | 21    | buy any 3 of (S,T,X,Y,Z) for 45 |
+    # +------+-------+---------------------------------+
+    SpecialOffer(
+        name="buy any 3 of (S,T,X,Y,Z) for 45",
+        should_apply=lambda skus: skus.count(V) >= 3,
+        skus_to_remove=[V] * 3,
+        reduced_price=130,
+        discount=20,
+    ),
+
 ]
 
 
@@ -244,6 +263,7 @@ def checkout(skus: str) -> int:
     for item in basket_items:
         total_checkout_value += item.price
     return total_checkout_value
+
 
 
 
