@@ -228,6 +228,7 @@ def choose_best_offer_to_apply(current_basket: list[SKU]) -> SpecialOffer:
 
 # skus = unicode string
 def checkout(skus: str) -> int:
+    print("Attempting skus:\t", skus)
     try:
         basket_items = parse_skus(skus)
     except IllegalItem:
@@ -244,5 +245,6 @@ def checkout(skus: str) -> int:
     # Go through remaining items after offers have been applied
     for item in basket_items:
         total_checkout_value += item.price
-
+    print("\ttotal = \t", total_checkout_value)
     return total_checkout_value
+

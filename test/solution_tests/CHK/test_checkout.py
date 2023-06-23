@@ -1,6 +1,5 @@
 from solutions.CHK import checkout
 
-
 class TestSum():
 
     def test_illegal_item(self):
