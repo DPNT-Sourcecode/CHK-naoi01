@@ -239,7 +239,11 @@ def parse_skus(skus: str) -> list[SKU]:
 
 
 def remove_skus_in_offer_from_remaining_basket(offer: SpecialOffer, current_basket: list[SKU]) -> list[SKU]:
-    remove_skus = offer.skus_to_remove
+    if isinstance(offer.skus_to_remove, list):
+        remove_skus = offer.skus_to_remove
+    else:
+        remove_skus = offer.skus_to_remove(current_basket)
+
     for item in remove_skus:
         # value error shouldn't be raised as we have already checked offer applies
         index_of_item = current_basket.index(item)
@@ -272,10 +276,10 @@ def choose_best_offer_to_apply(current_basket: list[SKU]) -> SpecialOffer:
     )[0]
     return offer_with_largest_discount
 
-# best_offer.reduced_price
 
 # skus = unicode string
 def checkout(skus: str) -> int:
+    print("Original basket ", skus)
     try:
         basket_items = parse_skus(skus)
     except IllegalItem:
@@ -288,11 +292,15 @@ def checkout(skus: str) -> int:
         best_offer = choose_best_offer_to_apply(basket_items)
         total_checkout_value += best_offer.reduced_price
         basket_items = remove_skus_in_offer_from_remaining_basket(best_offer, basket_items)
+        print("best offer ", best_offer.name)
+        print("total value ", total_checkout_value)
+        print("basket items ", [item.name for item in basket_items])
 
     # Go through remaining items after offers have been applied
     for item in basket_items:
         total_checkout_value += item.price
     return total_checkout_value
+
 
 
 
