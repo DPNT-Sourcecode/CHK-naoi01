@@ -81,18 +81,15 @@ def should_apply_group_discount(skus: list[SKU]) -> bool:
     return any(skus.count(item) >= 3 for item in GROUP_DISCOUNT_ITEMS)
 
 
-def get_group_discount_reduced_price(skus: list[SKU]) -> int:
-    group_discount_items_in_skus = [item for item in GROUP_DISCOUNT_ITEMS if skus.count(item) >= 3]
-    highest_discount_items = sorted(group_discount_items_in_skus, key=lambda item: item.price, reverse=True)[0]
-    return False
-
-
 def get_group_discount(skus: list[SKU]) -> int:
-    return -1
+    highest_discount_items = get_group_discount_items(skus)
+    return sum(item.price for item in highest_discount_items) - 45
 
 
 def get_group_discount_items(skus: list[SKU]) -> list[SKU]:
-    return []
+    group_discount_items_in_skus = [item for item in GROUP_DISCOUNT_ITEMS if skus.count(item) >= 3]
+    highest_discount_items = sorted(group_discount_items_in_skus, key=lambda item: item.price, reverse=True)[:3]
+    return highest_discount_items
 
 
 SPECIAL_OFFERS = [
@@ -216,7 +213,7 @@ SPECIAL_OFFERS = [
         name="buy any 3 of (S,T,X,Y,Z) for 45",
         should_apply=should_apply_group_discount,
         skus_to_remove=get_group_discount_items,
-        reduced_price=get_group_discount_reduced_price,
+        reduced_price=45,
         discount=get_group_discount,
     ),
 
@@ -275,6 +272,7 @@ def choose_best_offer_to_apply(current_basket: list[SKU]) -> SpecialOffer:
     )[0]
     return offer_with_largest_discount
 
+# best_offer.reduced_price
 
 # skus = unicode string
 def checkout(skus: str) -> int:
@@ -295,5 +293,6 @@ def checkout(skus: str) -> int:
     for item in basket_items:
         total_checkout_value += item.price
     return total_checkout_value
+
 
 
