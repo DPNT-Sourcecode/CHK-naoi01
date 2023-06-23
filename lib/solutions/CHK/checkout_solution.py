@@ -25,6 +25,26 @@ C = SKU("C", 20)
 D = SKU("D", 15)
 E = SKU("E", 40)
 F = SKU("F", 10)
+G = SKU("G", 20)
+H = SKU("H", 10)
+I = SKU("I", 35)
+J = SKU("J", 60)
+K = SKU("K", 80)
+L = SKU("L", 90)
+M = SKU("M", 15)
+N = SKU("N", 40)
+O = SKU("O", 10)
+P = SKU("P", 50)
+Q = SKU("Q", 30)
+R = SKU("R", 50)
+S = SKU("S", 30)
+T = SKU("T", 20)
+U = SKU("U", 40)
+V = SKU("V", 50)
+W = SKU("W", 20)
+X = SKU("X", 90)
+Y = SKU("Y", 10)
+Z = SKU("Z", 50)
 
 SKU_STR_TO_ITEMS = {
     "A": A,
@@ -33,6 +53,26 @@ SKU_STR_TO_ITEMS = {
     "D": D,
     "E": E,
     "F": F,
+    "G": G,
+    "H": H,
+    "I": I,
+    "J": J,
+    "K": K,
+    "L": L,
+    "M": M,
+    "N": N,
+    "O": O,
+    "P": P,
+    "Q": Q,
+    "R": R,
+    "S": S,
+    "T": T,
+    "U": U,
+    "V": V,
+    "W": W,
+    "X": X,
+    "Y": Y,
+    "Z": Z,
 }
 
 SPECIAL_OFFERS = [
@@ -76,6 +116,25 @@ SPECIAL_OFFERS = [
         skus_to_remove=[F, F, F],
         reduced_price=20,
         discount=10,
+    ),
+    SpecialOffer(
+        name="5H for 45, 10H for 80", ),
+    SpecialOffer(
+        name="2K for 150", ),
+    SpecialOffer(
+        name="3N get one M free", ),
+    SpecialOffer(
+        name="5P for 200", ),
+    SpecialOffer(
+        name="3Q for 80", ),
+    SpecialOffer(
+        name="3R get one Q free", ),
+    SpecialOffer(
+        name="3U get one U free", ),
+    SpecialOffer(
+        name="2V for 90, 3V for 130", ),
+    SpecialOffer(
+        name=""",),"""
     )
 
 ]
@@ -144,3 +203,4 @@ def checkout(skus: str) -> int:
         total_checkout_value += item.price
 
     return total_checkout_value
+
