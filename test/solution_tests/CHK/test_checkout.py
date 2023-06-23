@@ -70,8 +70,20 @@ class TestSum():
 
     @parameterized.expand([
         ("SSS", 45),
-        ("ZZZSSSTTT", 45) * 3,
+        ("ZZZSSSTTT", 45 * 3),
+        ("STX", 45),
+        ("STXSTX", 90),
+        ("SSS", 45),
     ])
     def tes_group_discount(self, skus, expected_price):
         assert checkout(skus) == expected_price
+
+
+
+
+"""
+ - {"method":"checkout","params":["STX"],"id":"CHK_R5_139"}, expected: 45, got: 57
+ - {"method":"checkout","params":["STXSTX"],"id":"CHK_R5_140"}, expected: 90, got: 114
+ - {"method":"checkout","params":["SSS"],"id":"CHK_R5_141"}, expected: 45, got: null
+"""
 
