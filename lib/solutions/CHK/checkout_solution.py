@@ -177,7 +177,7 @@ SPECIAL_OFFERS = [
     SpecialOffer(
         name="3V for 130",
         should_apply=lambda skus: skus.count(V) >= 3,
-        skus_to_remove=[],
+        skus_to_remove=[V] * 3,
         reduced_price=130,
         discount=20,
     ),
@@ -220,7 +220,7 @@ def basket_contains_applicable_offers(current_basket: list[SKU]) -> bool:
 
 
 def choose_best_offer_to_apply(current_basket: list[SKU]) -> SpecialOffer:
-    """i.e. choose offer that gives customer largest discount"""
+    """i.e. choose offer that gives customer the largest discount"""
     applicable_offers = [offer for offer in SPECIAL_OFFERS if offer.should_apply(current_basket)]
     offer_with_largest_discount = sorted(applicable_offers, key=lambda offer: offer.discount, reverse=True)[0]
     return offer_with_largest_discount
@@ -228,7 +228,6 @@ def choose_best_offer_to_apply(current_basket: list[SKU]) -> SpecialOffer:
 
 # skus = unicode string
 def checkout(skus: str) -> int:
-    print("Attempting skus:\t", skus, end="")
     try:
         basket_items = parse_skus(skus)
     except IllegalItem:
@@ -245,7 +244,7 @@ def checkout(skus: str) -> int:
     # Go through remaining items after offers have been applied
     for item in basket_items:
         total_checkout_value += item.price
-    print("\ttotal = \t", total_checkout_value)
     return total_checkout_value
+
 
 

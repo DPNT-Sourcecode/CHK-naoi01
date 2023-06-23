@@ -65,6 +65,6 @@ class TestSum():
         assert checkout("HHHHHHH") == 65
 
     def test_hanging_on_deploy(self):
-        print("VVV")
-        assert checkout("VVV") == 1
+        assert checkout("VVV") == 130
+
 
