@@ -120,7 +120,7 @@ SPECIAL_OFFERS = [
     ),
     SpecialOffer(
         name="5H for 45",
-        should_apply=lambda skus: skus.count(H) >= 10,
+        should_apply=lambda skus: skus.count(H) >= 5,
         skus_to_remove=[H] * 5,
         reduced_price=45,
         discount=5,

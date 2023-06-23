@@ -60,3 +60,8 @@ class TestSum():
     def test_special_offer_f_multi(self):
         assert checkout("FFFF") == 30
 
+    def test(self):
+        assert checkout("HHHHH") == 45
+        assert checkout("HHHHHH") == 55
+        assert checkout("HHHHHHH") == 65
+
