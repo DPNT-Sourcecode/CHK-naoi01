@@ -74,6 +74,21 @@ SKU_STR_TO_ITEMS = {
     "Z": Z,
 }
 
+GROUP_DISCOUNT_ITEMS = (S, T, X, Y, Z)
+
+def should_apply_group_discount(skus: list[SKU]) -> bool:
+    return any(skus.count(item) >= 3 for item in GROUP_DISCOUNT_ITEMS)
+
+
+def get_group_price(skus: list[SKU]) -> int:
+    group_discount_items_in_skus = [item for item in GROUP_DISCOUNT_ITEMS if skus.count(item) >= 3]
+    return False
+
+
+def get_group_discount(skus: list[SKU]) -> int:
+    return False
+
+
 SPECIAL_OFFERS = [
     SpecialOffer(
         name="5A for 200",
@@ -193,9 +208,9 @@ SPECIAL_OFFERS = [
     # +------+-------+---------------------------------+
     SpecialOffer(
         name="buy any 3 of (S,T,X,Y,Z) for 45",
-        should_apply=lambda skus: skus.count(V) >= 3,
+        should_apply=should_apl,
         skus_to_remove=[V] * 3,
-        reduced_price=130,
+        reduced_price=45,
         discount=20,
     ),
 
@@ -263,6 +278,7 @@ def checkout(skus: str) -> int:
     for item in basket_items:
         total_checkout_value += item.price
     return total_checkout_value
+
 
 
 
