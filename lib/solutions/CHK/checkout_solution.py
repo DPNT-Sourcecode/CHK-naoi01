@@ -13,9 +13,9 @@ class SKU(NamedTuple):
 class SpecialOffer(NamedTuple):
     name: str
     should_apply: Callable[[list[SKU]], bool]
-    skus_to_remove: list[SKU]
-    reduced_price: int
-    discount: int
+    skus_to_remove: list[SKU] | Callable[[list[SKU]], list[SKU]]
+    reduced_price: int | Callable[[list[SKU]], int]
+    discount: int | Callable[[list[SKU]], int]
 
 
 A = SKU("A", 50)
@@ -295,4 +295,5 @@ def checkout(skus: str) -> int:
     for item in basket_items:
         total_checkout_value += item.price
     return total_checkout_value
+
 
