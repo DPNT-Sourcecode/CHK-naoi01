@@ -22,6 +22,7 @@ A = SKU("A", 50)
 B = SKU("B", 30)
 C = SKU("C", 20)
 D = SKU("D", 15)
+E = SKU("E", 15)
 
 SKU_STR_TO_ITEMS = {
     "A": A,
@@ -31,6 +32,14 @@ SKU_STR_TO_ITEMS = {
 }
 
 SPECIAL_OFFERS = [
+    # This is better than "3A for 130" so apply this first
+    SpecialOffer(
+        name="5A for 200",
+        applicable_sku=A,
+        should_apply=lambda skus: skus.count(A) >= 5,
+        skus_to_remove=[A, A, A, A, A],
+        reduced_price=200,
+    ),
     SpecialOffer(
         name="3A for 130",
         applicable_sku=A,
@@ -44,6 +53,13 @@ SPECIAL_OFFERS = [
         should_apply=lambda skus: skus.count(B) >= 2,
         skus_to_remove=[B, B],
         reduced_price=45,
+    ),
+    SpecialOffer(
+        name="2E get one B free",
+        applicable_sku=E,
+        should_apply=lambda skus: skus.count(E) >= 2,
+        skus_to_remove=[E, E],
+        reduced_price=45,  # todo
     )
 ]
 
@@ -104,3 +120,4 @@ def checkout(skus: str) -> int:
         total_checkout_value += item.price
 
     return total_checkout_value
+
