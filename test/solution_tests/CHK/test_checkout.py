@@ -51,4 +51,11 @@ class TestSum():
         # 4E = 240
         assert checkout("BEBEEE") == 160
 
+    def test_item_f(self):
+        assert checkout("F") == 10
 
+    def test_special_offer_f(self):
+        assert checkout("FFF") == 20
+
+    def test_special_offer_f_multi(self):
+        assert checkout("FFFF") == 30
