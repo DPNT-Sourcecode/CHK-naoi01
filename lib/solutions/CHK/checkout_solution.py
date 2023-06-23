@@ -16,6 +16,7 @@ class SpecialOffer(NamedTuple):
     should_apply: Callable[[list[SKU]], bool]
     skus_to_remove: list[SKU]
     reduced_price: int
+    discount: int
 
 
 A = SKU("A", 50)
@@ -40,6 +41,7 @@ SPECIAL_OFFERS = [
         should_apply=lambda skus: skus.count(A) >= 5,
         skus_to_remove=[A, A, A, A, A],
         reduced_price=200,
+        discount=5*A.price - 200
     ),
     SpecialOffer(
         name="3A for 130",
@@ -58,9 +60,10 @@ SPECIAL_OFFERS = [
     SpecialOffer(
         name="2E get one B free",
         applicable_sku=E,
-        should_apply=lambda skus: skus.count(E) >= 2 and skus.count(B) >= 1,
+        should_apply=lambda skus: skus.count(E) >= 2 and skus.count(B) == 1,
         skus_to_remove=[E, E, B],
         reduced_price=80,
+        discount=B.price,
     )
 ]
 
@@ -121,5 +124,6 @@ def checkout(skus: str) -> int:
         total_checkout_value += item.price
 
     return total_checkout_value
+
 
 
