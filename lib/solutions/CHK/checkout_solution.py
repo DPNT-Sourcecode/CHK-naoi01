@@ -46,7 +46,7 @@ SPECIAL_OFFERS = [
     SpecialOffer(
         name="3A for 130",
         applicable_sku=A,
-        should_apply=lambda skus: skus.count(A) >= 3 and skus.count(A) < 5,
+        should_apply=lambda skus: skus.count(A) >= 3,
         skus_to_remove=[A, A, A],
         reduced_price=130,
         discount=20,
@@ -62,7 +62,7 @@ SPECIAL_OFFERS = [
     SpecialOffer(
         name="2E get one B free",
         applicable_sku=E,
-        should_apply=lambda skus: skus.count(E) >= 2 and skus.count(B) == 1,
+        should_apply=lambda skus: skus.count(E) >= 2 and skus.count(B) >= 1,
         skus_to_remove=[E, E, B],
         reduced_price=80,
         discount=B.price,
@@ -89,6 +89,7 @@ def parse_skus(skus: str) -> list[SKU]:
 
 
 def remove_skus_in_offer_from_remaining_basket(offer: SpecialOffer, current_basket: list[SKU]) -> list[SKU]:
+    print(current_basket)
     remove_skus = offer.skus_to_remove
     for item in remove_skus:
         # value error shouldn't be raised as we have already checked offer applies
@@ -109,8 +110,6 @@ def choose_best_offer_to_apply(current_basket: list[SKU]) -> SpecialOffer:
     """i.e. choose offer that gives customer largest discount"""
     applicable_offers = [offer for offer in SPECIAL_OFFERS if offer.should_apply(current_basket)]
     offer_with_largest_discount = sorted(applicable_offers, key=lambda offer: offer.discount, reverse=True)[0]
-    print(applicable_offers)
-    print([offer.discount for offer in applicable_offers])
     return offer_with_largest_discount
 
 
@@ -134,6 +133,7 @@ def checkout(skus: str) -> int:
         total_checkout_value += item.price
 
     return total_checkout_value
+
 
 
 
