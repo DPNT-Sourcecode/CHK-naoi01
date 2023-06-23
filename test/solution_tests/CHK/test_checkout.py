@@ -4,7 +4,7 @@ from solutions.CHK import checkout
 class TestSum():
 
     def test_illegal_item(self):
-        assert checkout("Z") == -1
+        assert checkout("=") == -1
 
     def test_item_a(self):
         assert checkout("A") == 50
@@ -59,3 +59,4 @@ class TestSum():
 
     def test_special_offer_f_multi(self):
         assert checkout("FFFF") == 30
+

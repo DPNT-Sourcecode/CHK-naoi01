@@ -136,43 +136,50 @@ SPECIAL_OFFERS = [
         name="3N get one M free",
         should_apply=lambda skus: skus.count(N) >= 3 and skus.count(M) >= 1,
         skus_to_remove=[N, N, N, M],
-        reduced_price=15,
+        reduced_price=120,
         discount=15,
     ),
     SpecialOffer(
         name="5P for 200",
-        should_apply=lambda skus: skus.count(H) >= 10,
-        skus_to_remove=[],
-        reduced_price=0,
-        discount=-1,
+        should_apply=lambda skus: skus.count(P) >= 5,
+        skus_to_remove=[P] * 5,
+        reduced_price=200,
+        discount=50,
     ),
     SpecialOffer(
         name="3Q for 80",
-        should_apply=lambda skus: skus.count(H) >= 10,
-        skus_to_remove=[],
-        reduced_price=0,
-        discount=-1,
+        should_apply=lambda skus: skus.count(Q) >= 3,
+        skus_to_remove=[Q] * 3,
+        reduced_price=80,
+        discount=10,
     ),
     SpecialOffer(
         name="3R get one Q free",
-        should_apply=lambda skus: skus.count(H) >= 10,
-        skus_to_remove=[],
-        reduced_price=0,
-        discount=-1,
+        should_apply=lambda skus: skus.count(R) >= 3 and skus.count(Q) >= 1,
+        skus_to_remove=[R, R, R, Q],
+        reduced_price=150,
+        discount=30,
     ),
     SpecialOffer(
         name="3U get one U free",
-        should_apply=lambda skus: skus.count(H) >= 10,
-        skus_to_remove=[],
-        reduced_price=0,
-        discount=-1,
+        should_apply=lambda skus: skus.count(U) >= 4,
+        skus_to_remove=[U] * 4,
+        reduced_price=120,
+        discount=40,
     ),
     SpecialOffer(
-        name="2V for 90, 3V for 130",
-        should_apply=lambda skus: skus.count(H) >= 10,
+        name="2V for 90",
+        should_apply=lambda skus: skus.count(V) >= 2,
+        skus_to_remove=[V, V],
+        reduced_price=90,
+        discount=10,
+    ),
+    SpecialOffer(
+        name="3V for 130",
+        should_apply=lambda skus: skus.count(V) >= 3,
         skus_to_remove=[],
-        reduced_price=0,
-        discount=-1,
+        reduced_price=130,
+        discount=20,
     ),
 ]
 
@@ -196,7 +203,6 @@ def parse_skus(skus: str) -> list[SKU]:
 
 
 def remove_skus_in_offer_from_remaining_basket(offer: SpecialOffer, current_basket: list[SKU]) -> list[SKU]:
-    print(current_basket)
     remove_skus = offer.skus_to_remove
     for item in remove_skus:
         # value error shouldn't be raised as we have already checked offer applies
@@ -240,6 +246,7 @@ def checkout(skus: str) -> int:
         total_checkout_value += item.price
 
     return total_checkout_value
+
 
 
 
