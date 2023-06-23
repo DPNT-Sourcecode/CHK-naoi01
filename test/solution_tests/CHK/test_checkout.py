@@ -73,6 +73,3 @@ class TestSum():
     ])
     def tes_group_discount(self, skus, expected_price):
         assert checkout(skus) == expected_price
-
-
-

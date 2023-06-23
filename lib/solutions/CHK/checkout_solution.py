@@ -258,10 +258,20 @@ def basket_contains_applicable_offers(current_basket: list[SKU]) -> bool:
     return False
 
 
+def get_offer_discount(offer: SpecialOffer, skus) -> int:
+    if isinstance(offer.discount, int):
+        return offer.discount
+    elif isinstance(offer.discount, Callable):
+        return offer.discount(skus)
+
 def choose_best_offer_to_apply(current_basket: list[SKU]) -> SpecialOffer:
     """i.e. choose offer that gives customer the largest discount"""
     applicable_offers = [offer for offer in SPECIAL_OFFERS if offer.should_apply(current_basket)]
-    offer_with_largest_discount = sorted(applicable_offers, key=lambda offer: offer.discount, reverse=True)[0]
+    offer_with_largest_discount = sorted(
+        applicable_offers,
+        key=get_offer_discount(offer, current_basket),
+        reverse=True,
+    )[0]
     return offer_with_largest_discount
 
 
@@ -284,10 +294,3 @@ def checkout(skus: str) -> int:
     for item in basket_items:
         total_checkout_value += item.price
     return total_checkout_value
-
-
-
-
-
-
-
