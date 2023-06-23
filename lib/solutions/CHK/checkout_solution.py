@@ -41,7 +41,7 @@ SPECIAL_OFFERS = [
         should_apply=lambda skus: skus.count(A) >= 5,
         skus_to_remove=[A, A, A, A, A],
         reduced_price=200,
-        discount=5*A.price - 200
+        discount=50,
     ),
     SpecialOffer(
         name="3A for 130",
@@ -49,6 +49,7 @@ SPECIAL_OFFERS = [
         should_apply=lambda skus: skus.count(A) >= 3 and skus.count(A) < 5,
         skus_to_remove=[A, A, A],
         reduced_price=130,
+        discount=20,
     ),
     SpecialOffer(
         name="2B for 45",
@@ -56,6 +57,7 @@ SPECIAL_OFFERS = [
         should_apply=lambda skus: skus.count(B) >= 2,
         skus_to_remove=[B, B],
         reduced_price=45,
+        discount=15,
     ),
     SpecialOffer(
         name="2E get one B free",
@@ -103,6 +105,12 @@ def basket_contains_applicable_offers(current_basket: list[SKU]) -> bool:
     return False
 
 
+def choose_best_offer_to_apply(current_basket: list[SKU]) -> SpecialOffer:
+    applicable_offers = [offer for offer in SPECIAL_OFFERS if offer.should_apply(current_basket)]
+    offer_with_largest_discount = sorted(applicable_offers, lambda offer: offer.discount, reverse=True)[0]
+    return offer_with_largest_discount
+
+
 # skus = unicode string
 def checkout(skus: str) -> int:
     try:
@@ -114,16 +122,16 @@ def checkout(skus: str) -> int:
 
     # First apply offers (which could be applicable multiple times)
     while basket_contains_applicable_offers(basket_items):
-        for offer in SPECIAL_OFFERS:
-            if offer.should_apply(basket_items):
-                total_checkout_value += offer.reduced_price
-                basket_items = remove_skus_in_offer_from_remaining_basket(offer, basket_items)
+        best_offer = choose_best_offer_to_apply(basket_items)
+        total_checkout_value += best_offer.reduced_price
+        basket_items = remove_skus_in_offer_from_remaining_basket(best_offer, basket_items)
 
     # Go through remaining items after offers have been applied
     for item in basket_items:
         total_checkout_value += item.price
 
     return total_checkout_value
+
 
 
 
